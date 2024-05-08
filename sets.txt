@@ -1,0 +1,195 @@
+set1 = set()
+n = int(input("Enter the number of elements in set 1: "))
+print("Enter the elements of set 1: ")
+for i in range (n):
+    a = int(input())
+    set1.add(a)
+
+set2 = set()
+t = int(input("Enter the number of elements in set 2: "))
+print("Enter the elements of set 2: ")
+for i in range (t):
+    b = int(input())
+    set2.add(b)
+
+#----------------------------------------------------------------------------
+
+i = 1
+while i == 1:
+    print("\n\n---------------- MENU ----------------\n")
+    print("1. Add new element to set")
+    print("2. Remove an element from set")
+    print("3. Display both sets")
+    print("4. Search an element from the set")
+    print("5. Total Number of elements in set")
+    print("6. Intersection of two sets")
+    print("7. Union of two sets")
+    print("8. Difference between two sets")
+    print("9. Subset")
+
+    choice = int(input("\nEnter your choice from 1 to 9: "))
+
+    if (choice == 1):
+        print("In which set you want to add new element: ")
+        print("1. set 1")
+        print("2. set 2")
+        print("3. both")
+        option = int(input())
+        if (option == 1):
+            newele = int(input("Enter the element you want to add in set 1: "))
+            set1.add(newele)
+        elif (option == 2):
+            newele = int(input("Enter the element you want to add in set 2: "))
+            set2.add(newele)
+        elif (option == 3):
+            newele1 = int(input("Enter the element you want to add in set 1: "))
+            set1.add(newele1)
+            newele2 = int(input("Enter the element you want to add in set 2: "))
+            set2.add(newele2)
+        else:
+            print("Invalid Input")
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 2):
+        print("From which set you want to remove an element: ")
+        print("1. set 1")
+        print("2. set 2")
+        print("3. both")
+        option = int(input())
+        if (option == 1):
+            delele = int(input("Enter the element you want to remove from set 1: "))
+            set1.remove(delele)
+        elif (option == 2):
+            delele = int(input("Enter the element you want to remove from set 2: "))
+            set2.remove(delele)
+        elif (option == 3):
+            delele1 = int(input("Enter the element you want to remove from set 1: "))
+            set1.remove(delele1)
+            delele2 = int(input("Enter the element you want to remove from set 2: "))
+            set2.remove(delele2)
+        else:
+            print("Invalid Input")
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 3):
+        print("Set 1 = ", set1)
+        print("Set 2 = ", set2)
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 4):
+        print("In which set you want to search the element: ")
+        print("1. set 1")
+        print("2. set 2")
+        option = int(input())
+        if (option == 1):
+            ele = int(input("Enter the element you want to search in set 1: "))
+            if ele in set1:
+                print("Element found")
+            else:
+                print("Element not found")
+
+        elif (option == 2):
+            ele = int(input("Enter the element you want to search in set 2: "))
+            if ele in set2:
+                print("Element found")
+            else:
+                print("Element not found")
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 5):
+        print("Total number of elements in set 1 = ", len(set1))
+        print("Total number of elements in set 2 = ", len(set2))
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 6):
+        print("Intersection of set 1 and set 2 = ", set1 & set2)
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 7):
+        print("Union of set 1 and set 2 = ", set1 | set2)
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 8):
+        print("Difference between set 1 and set 2 = ", set1 - set2)
+        print("Difference between set 2 and set 1 = ", set2 - set1)
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+    elif (choice == 9):
+        print("From which set you want to create a subset: ")
+        print("1. set 1")
+        print("2. set 2")
+        option = int(input())
+        if (option == 1):
+            print("Set 1 = ", set1)
+            n = int(input("Enter number of elements of subset: "))
+            sub1 = set()
+            for i in range (n):
+                ele = int(input("Enter elements of which you want to create subset from set 1: "))
+                if(ele in set1):
+                    sub1.add(ele)
+                    print("Subset of set 1 = ", sub1)
+                else:
+                    print("element not present in set 1")
+                    break
+            
+
+        elif (option == 2):
+            print("Set 2 = ", set2)
+            n = int(input("Enter number of elements of subset: "))
+            sub2 = set()
+            for i in range (n):
+                ele = int(input("Enter elements of which you want to create subset from set 2: "))
+                if(ele in set2):
+                    sub2.add(ele)
+                    print("Subset of set 2 = ", sub2)
+                else:
+                    print("element not present in set 2")
+                    break
+
+        cont = input("\nDo you want to continue? y or n: ")
+        if (cont == 'y'):
+            i = 1
+        else:
+            i = 0
+
+i = 0

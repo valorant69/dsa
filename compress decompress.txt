@@ -1,0 +1,116 @@
+#include <iostream>
+#include <unordered_map>
+#include <queue>
+#include <bitset>
+#include <vector>
+
+using namespace std;
+
+struct HuffmanNode {
+    char data;
+    unsigned freq;
+    HuffmanNode *left, *right;
+
+    HuffmanNode(char data, unsigned freq) : data(data), freq(freq), left(nullptr), right(nullptr) {}
+};
+
+struct compare {
+    bool operator()(HuffmanNode* l, HuffmanNode* r) {
+        return (l->freq > r->freq);
+    }
+};
+
+HuffmanNode* buildHuffmanTree(string text) {
+    unordered_map<char, unsigned> freq;
+    for (char ch : text) {
+        freq[ch]++;
+    }
+
+    priority_queue<HuffmanNode*, vector<HuffmanNode*>, compare> pq;
+    for (auto pair : freq) {
+        pq.push(new HuffmanNode(pair.first, pair.second));
+    }
+
+    while (pq.size() != 1) {
+        HuffmanNode *left = pq.top(); pq.pop();
+        HuffmanNode *right = pq.top(); pq.pop();
+
+        HuffmanNode *merged = new HuffmanNode('$', left->freq + right->freq);
+        merged->left = left;
+        merged->right = right;
+        pq.push(merged);
+    }
+
+    return pq.top();
+}
+
+void buildHuffmanCodes(HuffmanNode* root, string code, unordered_map<char, string>& huffmanCodes) {
+    if (root == nullptr) return;
+
+    if (!root->left && !root->right) {
+        huffmanCodes[root->data] = code;
+    }
+
+    buildHuffmanCodes(root->left, code + "0", huffmanCodes);
+    buildHuffmanCodes(root->right, code + "1", huffmanCodes);
+}
+
+vector<bool> compress(string text, unordered_map<char, string>& huffmanCodes) {
+    string encodedText = "";
+    for (char ch : text) {
+        encodedText += huffmanCodes[ch];
+    }
+
+    while (encodedText.size() % 8 != 0) {
+        encodedText += '0'; // Padding with zeros until the length is a multiple of 8
+    }
+
+    vector<bool> compressedData;
+    for (char bit : encodedText) {
+        compressedData.push_back(bit - '0');
+    }
+
+    return compressedData;
+}
+
+string decompress(vector<bool>& compressedData, unordered_map<string, char>& huffmanCodes) {
+    string code = "";
+    string decompressedText = "";
+    for (bool bit : compressedData) {
+        code += (bit ? '1' : '0');
+        if (huffmanCodes.find(code) != huffmanCodes.end()) {
+            decompressedText += huffmanCodes[code];
+            code = "";
+        }
+    }
+
+    return decompressedText;
+}
+
+int main() {
+    string text;
+    cout << "Enter the message to compress: ";
+    getline(cin, text);
+
+    HuffmanNode* root = buildHuffmanTree(text);
+    unordered_map<char, string> huffmanCodes;
+    buildHuffmanCodes(root, "", huffmanCodes);
+
+    unordered_map<string, char> reverseHuffmanCodes;
+    for (auto pair : huffmanCodes) {
+        reverseHuffmanCodes[pair.second] = pair.first;
+    }
+
+    vector<bool> compressedData = compress(text, huffmanCodes);
+    string decompressedText = decompress(compressedData, reverseHuffmanCodes);
+
+    cout << "Original message: " << text << endl;
+    cout << "Compressed data: ";
+    for (bool bit : compressedData) {
+        cout << bit;
+    }
+    cout << endl;
+    cout << "Decompressed message: " << decompressedText << endl;
+
+    return 0;
+}
